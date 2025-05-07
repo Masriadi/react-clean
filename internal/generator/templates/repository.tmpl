@@ -1,0 +1,78 @@
+import apiFetch from 'src/data/sources/api/fetchWithAuth';
+import { I{{.Entity}}Repository, {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
+import { PaginatedResponse } from 'src/domain/types/Interface';
+import { ID } from 'src/domain/types/Types';
+import { API_BASE_URL } from 'src/utils/constants';
+
+const {{.Entity}}Repository: I{{.Entity}}Repository = {
+	getAll: async (
+		currentPage: number,
+		itemsPerPage: number,
+		searchTerm: string,
+	): Promise<PaginatedResponse<{{.Entity}}>> => {
+		let url = `${API_BASE_URL}/{{.LowerEntity}}?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
+		if (searchTerm) {
+			url += `&searchTerm=${searchTerm}`;
+		}
+
+		const response = await apiFetch.fetchWithAuth(url);
+		const responseJson = await response.json();
+
+		if (responseJson.code !== 200) {
+			throw new Error(responseJson.message);
+		}
+		return responseJson.data;
+	},
+
+	getById: async (id: ID): Promise<{{.Entity}}> => {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}/${id}`);
+		const responseJson = await response.json();
+
+		if (responseJson.code !== 200) {
+			throw new Error(responseJson.message);
+		}
+		return responseJson.data;
+	},
+
+	create: async ({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}> => {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}`, {
+			method: 'POST',
+			body: JSON.stringify({{.LowerEntity}}),
+		});
+		const responseJson = await response.json();
+
+		if (responseJson.code !== 201) {
+			throw new Error(responseJson.message);
+		}
+		return responseJson.data;
+	},
+
+	update: async (id: ID, {{.Entity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}> => {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}/${id}`, {
+			method: 'PUT',
+			body: JSON.stringify({{.Entity}}),
+		});
+		const responseJson = await response.json();
+
+		if (responseJson.code !== 200) {
+			throw new Error(responseJson.message);
+		}
+		return responseJson.data;
+	},
+
+	delete: async (ids: ID[]): Promise<number[]> => {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}`, {
+			method: 'DELETE',
+			body: JSON.stringify(ids),
+		});
+		const responseJson = await response.json();
+
+		if (responseJson.code !== 200) {
+			throw new Error(responseJson.message);
+		}
+
+		return ids;
+	},
+};
+
+export default {{.Entity}}Repository;

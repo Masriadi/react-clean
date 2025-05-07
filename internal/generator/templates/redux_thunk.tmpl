@@ -1,0 +1,76 @@
+import {{.Entity}}Repository from 'src/data/repositories/{{.LowerEntity}}/{{.Entity}}Repository.ts';
+import { deleteItem, setItem, setItems } from 'src/presentation/redux/{{.LowerEntity}}/{{.LowerEntity}}Slice.ts';
+import { Dispatch } from 'redux';
+import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
+import { PaginatedResponse } from 'src/domain/types/Interface';
+import { setLoading } from 'src/presentation/redux/loading-bar/loadingBarSlice';
+import showNotification from 'src/utils/notification';
+
+// fetch{{.Entity}}s : action creator for fetching user {{.LowerEntity}}s
+export const fetch{{.Entity}}s =
+	(currentPage: number, itemsPerPage: number, searchTerm = '') =>
+	async (dispatch: Dispatch) => {
+		dispatch(setLoading(true));
+
+		try {
+			const response: PaginatedResponse<{{.Entity}}> = await {{.Entity}}Repository.getAll(
+				currentPage,
+				itemsPerPage,
+				searchTerm,
+			);
+			dispatch(setItems(response));
+		} catch (error) {
+			const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
+			showNotification('error', errorMessage);
+		} finally {
+			dispatch(setLoading(false));
+		}
+	};
+
+// create{{.Entity}} : action creator for creating user {{.LowerEntity}}
+export const create{{.Entity}} = ({{.Entity}}: {{.Entity}}) => async (dispatch: Dispatch) => {
+	dispatch(setLoading(true));
+
+	try {
+		const response = await {{.Entity}}Repository.create({{.Entity}});
+		dispatch(setItem(response));
+		showNotification('success', 'Data berhasil disimpan');
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
+		showNotification('error', errorMessage);
+	} finally {
+		dispatch(setLoading(false));
+	}
+};
+
+// update{{.Entity}} : action creator for updating user {{.LowerEntity}}
+export const update{{.Entity}} = (id: number, {{.Entity}}: Partial<{{.Entity}}>) => async (dispatch: Dispatch) => {
+	dispatch(setLoading(true));
+
+	try {
+		const response = await {{.Entity}}Repository.update(id, {{.Entity}});
+		dispatch(setItem(response));
+		showNotification('success', 'Perubahan berhasil disimpan');
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
+		showNotification('error', errorMessage);
+	} finally {
+		dispatch(setLoading(false));
+	}
+};
+
+// delete{{.Entity}} : action creator for deleting user {{.LowerEntity}}
+export const delete{{.Entity}} = (ids: number[]) => async (dispatch: Dispatch) => {
+	dispatch(setLoading(true));
+
+	try {
+		const response = await {{.Entity}}Repository.delete(ids);
+		dispatch(deleteItem(response));
+		showNotification('success', 'Data berhasil dihapus');
+	} catch (error) {
+		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
+		showNotification('error', errorMessage);
+	} finally {
+		dispatch(setLoading(false));
+	}
+};
