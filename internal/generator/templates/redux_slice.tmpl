@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
+import { ID } from 'src/domain/types/Types';
 
 interface {{.Entity}}State {
 	items: {{.Entity}}[];
 	totalItems: number;
-	selectedIds: number[];
+	selectedIds: ID[];
 	selectAll: boolean;
 	editedItem?: {{.Entity}} | null;
 }
@@ -33,7 +34,7 @@ const {{.LowerEntity}}Slice = createSlice({
 			}
 			state.totalItems = state.items.length;
 		},
-		deleteItem: (state: {{.Entity}}State, action: { payload: number[] }) => {
+		deleteItem: (state: {{.Entity}}State, action: { payload: ID[] }) => {
 			state.items = state.items.filter(({{.Entity}}) => !action.payload.includes({{.Entity}}.id));
 			state.totalItems -= action.payload.length;
 			state.selectedIds = state.selectedIds?.filter((selectedId) => !action.payload.includes(selectedId));
@@ -45,7 +46,7 @@ const {{.LowerEntity}}Slice = createSlice({
 			state.selectAll = action.payload;
 			state.selectedIds = state.selectAll ? state.items.map((c) => c.id) : [];
 		},
-		toggleSelectRow: (state: {{.Entity}}State, action: { payload: number }) => {
+		toggleSelectRow: (state: {{.Entity}}State, action: { payload: ID }) => {
 			const {{.LowerEntity}}Id = action.payload;
 			state.selectedIds = state.selectedIds.includes({{.LowerEntity}}Id)
 				? state.selectedIds.filter((id) => id !== {{.LowerEntity}}Id)

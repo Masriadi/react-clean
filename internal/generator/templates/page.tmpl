@@ -68,7 +68,7 @@ const {{.Entity}}Page: React.FC = () => {
 							<CardHeader>
 								<div className="card-header-title">
 									<FiUserCheck className="icon" />
-									<span>Grup Pengguna</span>
+									<span>Semua {{.Entity}}</span>
 								</div>
 								<div className="search-toolbar mr-15">
 									<FiSearch className="icon" />
@@ -193,7 +193,7 @@ const {{.Entity}}Page: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			{showEditModal && <Edit{{.Entity}}Modal handleClose={() => setShowEditModal(false)} />}
+			{showEditModal && <Edit{{.Entity}}Modal onClose={() => setShowEditModal(false)} />}
 			{showDeleteModal && (
 				<ConfirmationAlert
 					message="Are you sure you want to delete this item?"

@@ -5,6 +5,7 @@ import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
 import { PaginatedResponse } from 'src/domain/types/Interface';
 import { setLoading } from 'src/presentation/redux/loading-bar/loadingBarSlice';
 import showNotification from 'src/utils/notification';
+import { ID } from 'src/domain/types/Types';
 
 // fetch{{.Entity}}s : action creator for fetching user {{.LowerEntity}}s
 export const fetch{{.Entity}}s =
@@ -44,7 +45,7 @@ export const create{{.Entity}} = ({{.Entity}}: {{.Entity}}) => async (dispatch: 
 };
 
 // update{{.Entity}} : action creator for updating user {{.LowerEntity}}
-export const update{{.Entity}} = (id: number, {{.Entity}}: Partial<{{.Entity}}>) => async (dispatch: Dispatch) => {
+export const update{{.Entity}} = (id: ID, {{.Entity}}: Partial<{{.Entity}}>) => async (dispatch: Dispatch) => {
 	dispatch(setLoading(true));
 
 	try {
@@ -60,7 +61,7 @@ export const update{{.Entity}} = (id: number, {{.Entity}}: Partial<{{.Entity}}>)
 };
 
 // delete{{.Entity}} : action creator for deleting user {{.LowerEntity}}
-export const delete{{.Entity}} = (ids: number[]) => async (dispatch: Dispatch) => {
+export const delete{{.Entity}} = (ids: ID[]) => async (dispatch: Dispatch) => {
 	dispatch(setLoading(true));
 
 	try {

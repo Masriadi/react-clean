@@ -13,5 +13,5 @@ export interface I{{.Entity}}Repository {
 	getById(id: ID): Promise<{{.Entity}}>;
 	create({{.Entity}}: {{.Entity}}): Promise<{{.Entity}}>;
 	update(id: ID, {{.Entity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}>;
-	delete: (ids: ID[]) => Promise<number[]>;
+	delete: (ids: ID[]) => Promise<ID[]>;
 }

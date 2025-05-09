@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FiArrowLeft, FiUploadCloud, Fi{{.Entity}}, FiX } from 'react-icons/fi';
+import { FiArrowLeft, FiUploadCloud, FiX, FiUser } from 'react-icons/fi';
 import {
 	FormContainer,
 	FormGroup,
@@ -9,7 +9,6 @@ import {
 	ModalBody,
 	ModalFooter,
 	ModalHeader,
-	SelectMultiple,
 } from 'pesona-ui';
 import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
 import useFormValidation from 'src/presentation/hooks/useFormValidation';
@@ -21,7 +20,7 @@ interface Edit{{.Entity}}ModalProps {
 	onClose: () => void;
 }
 
-const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className, onClose }) => {
+const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className = 'modal-md', onClose }) => {
 	const dispatch = useAppDispatch();
 	const editedItem = useAppSelector((state) => state.{{.LowerEntity}}.editedItem);
 
@@ -31,7 +30,6 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className, 
 		handleSubmit,
 		formState: { errors },
 		setValue,
-		watch,
 	} = useForm<{{.Entity}}>();
 
 	// Set default value from archive
@@ -76,7 +74,7 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className, 
 							<div className="col-md-12">
 								<FormGroup className={`${errors.name ? 'has-error' : ''}`}>
 									<Input
-										label="{{.Entity}}"
+										label="Name"
 										required
 										error={errors.name?.message}
 										{...formProps('name')}

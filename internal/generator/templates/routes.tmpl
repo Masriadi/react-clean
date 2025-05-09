@@ -1,14 +1,17 @@
-import {{.Entity}}Page from 'src/presentation/pages/{{.LowerEntity}}/{{.Entity}}Page.tsx';
 import { Route, Routes } from 'react-router-dom';
-import { useRBAC } from 'src/presentation/hooks/useRBAC';
 import ForbiddenPage from 'src/presentation/pages/error/ForbiddenPage';
+import {{.Entity}}Page from 'src/presentation/pages/{{.LowerEntity}}/{{.Entity}}Page.tsx';
+import { useRBAC } from 'src/presentation/hooks/useRBAC';
 
 const {{.Entity}}Router = () => {
 	const { hasAccessPermission } = useRBAC();
 
 	return (
 		<Routes>
-			<Route path="/" element={hasAccessPermission(['{{.LowerEntity}}']) ? <{{.Entity}}Page /> : <ForbiddenPage />} />
+			<Route
+				path="/"
+				element={hasAccessPermission(['{{.LowerEntity}}']) ? <{{.Entity}}Page /> : <ForbiddenPage />}
+			/>
 		</Routes>
 	);
 };

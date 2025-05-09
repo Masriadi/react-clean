@@ -9,3 +9,9 @@ go get github.com/Masriadi/react-clean
 // Install the package
 go install github.com/Masriadi/react-clean/cmd/react-clean@latest
 ```
+
+install local package :
+
+```bash
+go install ./cmd/react-clean
+```

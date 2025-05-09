@@ -60,7 +60,7 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
 		return responseJson.data;
 	},
 
-	delete: async (ids: ID[]): Promise<number[]> => {
+	delete: async (ids: ID[]): Promise<ID[]> => {
 		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}`, {
 			method: 'DELETE',
 			body: JSON.stringify(ids),

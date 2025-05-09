@@ -85,11 +85,11 @@ func GenerateStructure(entityName string, moduleName string) error {
 	templates := []TemplateInfo{
 		{fmt.Sprintf("%s/%s/%sRepository.ts", repositoriesDir, instanceEntityName, entityName), repositoryTemplate},
 		{fmt.Sprintf("%s/%s/%s.ts", entitiesDir, instanceEntityName, entityName), entityTemplate},
-		{fmt.Sprintf("%s/%s/%sPage.ts", pagesDir, instanceEntityName, entityName), pageTemplate},
-		{fmt.Sprintf("%s/%s/Edit%sModal.ts", pagesDir, instanceEntityName, entityName), componentTemplate},
+		{fmt.Sprintf("%s/%s/%sPage.tsx", pagesDir, instanceEntityName, entityName), pageTemplate},
+		{fmt.Sprintf("%s/%s/Edit%sModal.tsx", componentsDir, instanceEntityName, entityName), componentTemplate},
 		{fmt.Sprintf("%s/%s/%sSlice.ts", reduxDir, instanceEntityName, instanceEntityName), reduxSliceTemplate},
 		{fmt.Sprintf("%s/%s/%sThunk.ts", reduxDir, instanceEntityName, instanceEntityName), reduxThunkTemplate},
-		{fmt.Sprintf("%s/%s/%sRouter.ts", routesDir, instanceEntityName, entityName), routesTemplate},
+		{fmt.Sprintf("%s/%s/%sRouter.tsx", routesDir, instanceEntityName, entityName), routesTemplate},
 	}
 
 	// Generate files from templates
