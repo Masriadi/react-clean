@@ -1,5 +1,5 @@
-import { PaginatedResponse } from 'src/domain/types/Interface';
-import { ID } from "src/domain/types/Types";
+import type { PaginatedResponse } from 'src/domain/types/Interface';
+import type { ID } from "src/domain/types/Types";
 
 export interface {{.Entity}} {
 	id: ID;
@@ -9,7 +9,11 @@ export interface {{.Entity}} {
 }
 
 export interface I{{.Entity}}Repository {
-	getAll(currentPage: number, itemsPerPage: number, searchTerm: string): Promise<PaginatedResponse<{{.Entity}}>>;
+	getAll(
+		currentPage: number,
+    itemsPerPage: number,
+    searchTerm: string,
+	): Promise<PaginatedResponse<{{.Entity}}>>;
 	getById(id: ID): Promise<{{.Entity}}>;
 	create({{.Entity}}: {{.Entity}}): Promise<{{.Entity}}>;
 	update(id: ID, {{.Entity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}>;

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
-import { ID } from 'src/domain/types/Types';
+import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
+import type { ID } from 'src/domain/types/Types';
 
 interface {{.Entity}}State {
 	items: {{.Entity}}[];
@@ -11,7 +11,7 @@ interface {{.Entity}}State {
 }
 
 const {{.LowerEntity}}Slice = createSlice({
-	name: '{{.Entity}}',
+	name: '{{.LowerEntity}}',
 	initialState: {
 		items: [],
 		totalItems: 0,

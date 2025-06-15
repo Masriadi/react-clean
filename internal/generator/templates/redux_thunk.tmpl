@@ -1,11 +1,11 @@
-import {{.Entity}}Repository from 'src/data/repositories/{{.LowerEntity}}/{{.Entity}}Repository.ts';
-import { deleteItem, setItem, setItems } from 'src/presentation/redux/{{.LowerEntity}}/{{.LowerEntity}}Slice.ts';
-import { Dispatch } from 'redux';
-import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
-import { PaginatedResponse } from 'src/domain/types/Interface';
-import { setLoading } from 'src/presentation/redux/loading-bar/loadingBarSlice';
+import type { Dispatch } from 'redux';
+import {{.Entity}}Repository from 'src/data/repositories/{{.DirName}}/{{.Entity}}Repository.ts';
+import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
+import type { PaginatedResponse } from 'src/domain/types/Interface';
+import type { ID } from 'src/domain/types/Types';
+import { setLoading } from 'src/presentation/stores/loading-bar/loadingBarSlice';
+import { deleteItem, setItem, setItems } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Slice.ts';
 import showNotification from 'src/utils/notification';
-import { ID } from 'src/domain/types/Types';
 
 // fetch{{.Entity}}s : action creator for fetching user {{.LowerEntity}}s
 export const fetch{{.Entity}}s =

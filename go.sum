@@ -1,6 +1,2 @@
-github.com/Masriadi/go-clean v0.0.0-20250507010926-981844b739da h1:G2DpFd6py/togQJKU1t3+CxizHjxE0Z1WneHbYRHBtw=
-github.com/Masriadi/go-clean v0.0.0-20250507010926-981844b739da/go.mod h1:2mMlaSD+pTedlnzWZQdb/aAc9UA0RAbTjw08KPqOjNI=
-golang.org/x/mod v0.22.0 h1:D4nJWe9zXqHOmWqj4VMOJhvzj7bEZg4wEYa759z1pH4=
-golang.org/x/mod v0.22.0/go.mod h1:6SkKJ3Xj0I0BrPOZoBy3bdMptDDU9oJrpohJ3eWZ1fY=
 golang.org/x/text v0.21.0 h1:zyQAAkrwaneQ066sspRyJaG9VNi/YJ1NfzcGB3hZ/qo=
 golang.org/x/text v0.21.0/go.mod h1:4IBbMaMmOPCJ8SecivzSH54+73PCFmPWxNTLm+vZkEQ=

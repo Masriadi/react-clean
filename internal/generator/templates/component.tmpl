@@ -1,19 +1,11 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiArrowLeft, FiUploadCloud, FiX, FiUser } from 'react-icons/fi';
-import {
-	FormContainer,
-	FormGroup,
-	Input,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
-} from 'pesona-ui';
-import { {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
+import { FormContainer, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'pesona-ui';
+import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
+import { create{{.Entity}}, update{{.Entity}} } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Thunk';
 import useFormValidation from 'src/presentation/hooks/useFormValidation';
 import { useAppDispatch, useAppSelector } from 'src/presentation/hooks/useRedux';
-import { create{{.Entity}}, update{{.Entity}} } from 'src/presentation/redux/{{.LowerEntity}}/{{.LowerEntity}}Thunk';
 
 interface Edit{{.Entity}}ModalProps {
 	className?: string;

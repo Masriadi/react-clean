@@ -20,13 +20,13 @@ import {
 	TableRow,
 	Tooltip,
 } from 'pesona-ui';
-import Edit{{.Entity}}Modal from 'src/presentation/components/{{.LowerEntity}}/Edit{{.Entity}}Modal.tsx';
+import Edit{{.Entity}}Modal from 'src/presentation/components/{{.DirName}}/Edit{{.Entity}}Modal.tsx';
 import { useBreadcrumbs } from 'src/presentation/hooks/useBreadcrumbs';
 import useNewDataTable from 'src/presentation/hooks/useNewDataTable';
 import { useAppDispatch, useAppSelector } from 'src/presentation/hooks/useRedux';
 import { useUrlDefaultValues } from 'src/presentation/hooks/useUrlDefaultValues';
-import { setEditedItem, toggleSelectAll, toggleSelectRow } from 'src/presentation/redux/{{.LowerEntity}}/{{.LowerEntity}}Slice.ts';
-import { delete{{.Entity}}, fetch{{.Entity}}s, update{{.Entity}} } from 'src/presentation/redux/{{.LowerEntity}}/{{.LowerEntity}}Thunk.ts';
+import { setEditedItem, toggleSelectAll, toggleSelectRow } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Slice.ts';
+import { delete{{.Entity}}, fetch{{.Entity}}s, update{{.Entity}} } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Thunk.ts';
 
 const {{.Entity}}Page: React.FC = () => {
 	const dispatch = useAppDispatch();

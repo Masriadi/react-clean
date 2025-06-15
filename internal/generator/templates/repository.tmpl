@@ -1,7 +1,7 @@
 import apiFetch from 'src/data/sources/api/fetchWithAuth';
-import { I{{.Entity}}Repository, {{.Entity}} } from 'src/domain/entities/{{.LowerEntity}}/{{.Entity}}';
-import { PaginatedResponse } from 'src/domain/types/Interface';
-import { ID } from 'src/domain/types/Types';
+import type { I{{.Entity}}Repository, {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
+import type { PaginatedResponse } from 'src/domain/types/Interface';
+import type { ID } from 'src/domain/types/Types';
 import { API_BASE_URL } from 'src/utils/constants';
 
 const {{.Entity}}Repository: I{{.Entity}}Repository = {
@@ -10,7 +10,7 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
 		itemsPerPage: number,
 		searchTerm: string,
 	): Promise<PaginatedResponse<{{.Entity}}>> => {
-		let url = `${API_BASE_URL}/{{.LowerEntity}}?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
+		let url = `${API_BASE_URL}/{{.DirName}}?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
 		if (searchTerm) {
 			url += `&searchTerm=${searchTerm}`;
 		}
@@ -25,7 +25,7 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
 	},
 
 	getById: async (id: ID): Promise<{{.Entity}}> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}/${id}`);
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}/${id}`);
 		const responseJson = await response.json();
 
 		if (responseJson.code !== 200) {
@@ -35,7 +35,7 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
 	},
 
 	create: async ({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}`, {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}`, {
 			method: 'POST',
 			body: JSON.stringify({{.LowerEntity}}),
 		});
@@ -48,7 +48,7 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
 	},
 
 	update: async (id: ID, {{.Entity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}/${id}`, {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}/${id}`, {
 			method: 'PUT',
 			body: JSON.stringify({{.Entity}}),
 		});
@@ -61,7 +61,7 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
 	},
 
 	delete: async (ids: ID[]): Promise<ID[]> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.LowerEntity}}`, {
+		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}`, {
 			method: 'DELETE',
 			body: JSON.stringify(ids),
 		});

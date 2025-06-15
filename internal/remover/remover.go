@@ -18,16 +18,16 @@ func RemoveStructure(entityName string) error {
 
 	// Normalisasi nama
 	entityName = utils.StringToEntityName(entityName)
-	instanceEntityName := utils.StringToInstanceName(entityName)
+	dirName := utils.StringToDirName(entityName)
 
 	// Daftar direktori yang akan dihapus
 	dirs := []string{
-		filepath.Join("src/data/repositories", instanceEntityName),
-		filepath.Join("src/domain/entities", instanceEntityName),
-		filepath.Join("src/presentation/pages", instanceEntityName),
-		filepath.Join("src/presentation/components", instanceEntityName),
-		filepath.Join("src/presentation/redux", instanceEntityName),
-		filepath.Join("src/presentation/routes", instanceEntityName),
+		filepath.Join("src/data/repositories", dirName),
+		filepath.Join("src/domain/entities", dirName),
+		filepath.Join("src/presentation/pages", dirName),
+		filepath.Join("src/presentation/components", dirName),
+		filepath.Join("src/presentation/stores", dirName),
+		filepath.Join("src/presentation/routes", dirName),
 	}
 
 	utils.LogInfo("The following directories will be removed:")

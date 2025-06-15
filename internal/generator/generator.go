@@ -49,7 +49,7 @@ const (
 	entitiesDir     = "src/domain/entities"
 	pagesDir        = "src/presentation/pages"
 	componentsDir   = "src/presentation/components"
-	reduxDir        = "src/presentation/redux"
+	reduxDir        = "src/presentation/stores"
 	routesDir       = "src/presentation/routes"
 )
 
@@ -68,6 +68,9 @@ func GenerateStructure(entityName string, moduleName string) error {
 	// Convert entity name to lowercase
 	instanceEntityName := utils.StringToInstanceName(entityName)
 
+	// Directory name
+	dirName := utils.StringToDirName(entityName)
+
 	directories := []string{
 		repositoriesDir,
 		entitiesDir,
@@ -83,13 +86,13 @@ func GenerateStructure(entityName string, moduleName string) error {
 
 	// Define templates
 	templates := []TemplateInfo{
-		{fmt.Sprintf("%s/%s/%sRepository.ts", repositoriesDir, instanceEntityName, entityName), repositoryTemplate},
-		{fmt.Sprintf("%s/%s/%s.ts", entitiesDir, instanceEntityName, entityName), entityTemplate},
-		{fmt.Sprintf("%s/%s/%sPage.tsx", pagesDir, instanceEntityName, entityName), pageTemplate},
-		{fmt.Sprintf("%s/%s/Edit%sModal.tsx", componentsDir, instanceEntityName, entityName), componentTemplate},
-		{fmt.Sprintf("%s/%s/%sSlice.ts", reduxDir, instanceEntityName, instanceEntityName), reduxSliceTemplate},
-		{fmt.Sprintf("%s/%s/%sThunk.ts", reduxDir, instanceEntityName, instanceEntityName), reduxThunkTemplate},
-		{fmt.Sprintf("%s/%s/%sRouter.tsx", routesDir, instanceEntityName, entityName), routesTemplate},
+		{fmt.Sprintf("%s/%s/%sRepository.ts", repositoriesDir, dirName, entityName), repositoryTemplate},
+		{fmt.Sprintf("%s/%s/%s.ts", entitiesDir, dirName, entityName), entityTemplate},
+		{fmt.Sprintf("%s/%s/%sPage.tsx", pagesDir, dirName, entityName), pageTemplate},
+		{fmt.Sprintf("%s/%s/Edit%sModal.tsx", componentsDir, dirName, entityName), componentTemplate},
+		{fmt.Sprintf("%s/%s/%sSlice.ts", reduxDir, dirName, instanceEntityName), reduxSliceTemplate},
+		{fmt.Sprintf("%s/%s/%sThunk.ts", reduxDir, dirName, instanceEntityName), reduxThunkTemplate},
+		{fmt.Sprintf("%s/%s/%sRouter.tsx", routesDir, dirName, entityName), routesTemplate},
 	}
 
 	// Generate files from templates
@@ -100,6 +103,7 @@ func GenerateStructure(entityName string, moduleName string) error {
 			instanceEntityName,
 			entityName,
 			moduleName,
+			dirName,
 		); err != nil {
 			return err
 		}
@@ -126,6 +130,7 @@ func generateFile(
 	instanceEntityName string,
 	entityName string,
 	moduleName string,
+	dirName string,
 ) error {
 	funcMap := template.FuncMap{
 		"lower": strings.ToLower,
@@ -174,6 +179,7 @@ func generateFile(
 		"LowerEntity": instanceEntityName,
 		"Entity":      entityName,
 		"Module":      moduleName,
+		"DirName":     dirName,
 	}
 	if err := tmpl.Execute(outFile, data); err != nil {
 		return fmt.Errorf("error writing to file %s: %w", outPath, err)
