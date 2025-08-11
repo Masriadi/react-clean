@@ -49,6 +49,7 @@ const {{.Entity}}Page: React.FC = () => {
     setItemsPerPage,
     searchTerm,
     setSearchTerm,
+    debouncedSearchTerm,
     showEditModal,
     setShowEditModal,
     showDeleteModal,
@@ -59,8 +60,8 @@ const {{.Entity}}Page: React.FC = () => {
   } = useNewDataTable({ defaultPage, defaultItemsPerPage, defaultSearchTerm, totalData: totalItems });
 
   useEffect(() => {
-    dispatch(fetchAll{{.Entity}}(currentPage, itemsPerPage, searchTerm));
-  }, [currentPage, dispatch, itemsPerPage, searchTerm]);
+    dispatch(fetchAll{{.Entity}}(currentPage, itemsPerPage, debouncedSearchTerm));
+  }, [currentPage, dispatch, itemsPerPage, debouncedSearchTerm]);
 
   useBreadcrumbs([
     { name: 'Home', path: '/' },
