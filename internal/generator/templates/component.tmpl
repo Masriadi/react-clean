@@ -1,92 +1,94 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FiArrowLeft, FiUploadCloud, FiX, FiUser } from 'react-icons/fi';
+import { FiArrowLeft, FiUploadCloud, FiUser, FiX } from 'react-icons/fi';
 import { FormContainer, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'pesona-ui';
 import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import { create{{.Entity}}, update{{.Entity}} } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Thunk';
+import { defineValidationRules } from 'src/utils/validation';
 import useFormValidation from 'src/presentation/hooks/useFormValidation';
 import { useAppDispatch, useAppSelector } from 'src/presentation/hooks/useRedux';
 
 interface Edit{{.Entity}}ModalProps {
-	className?: string;
-	onClose: () => void;
+  className?: string;
+  onClose: () => void;
 }
 
+// Constants
+const VALIDATION_RULES = defineValidationRules<{{.Entity}}>()({
+  name: { required: true },
+});
+
 const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className = 'modal-md', onClose }) => {
-	const dispatch = useAppDispatch();
-	const editedItem = useAppSelector((state) => state.{{.LowerEntity}}.editedItem);
+  const dispatch = useAppDispatch();
+  const editedItem = useAppSelector((state) => state.{{.LowerEntity}}.editedItem);
 
-	// Form validation
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		setValue,
-	} = useForm<{{.Entity}}>();
+  // Form validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<{{.Entity}}>();
 
-	// Set default value from archive
-	useEffect(() => {
-		if (editedItem) {
-			setValue('name', editedItem.name || '');
-		}
-	}, [editedItem, setValue]);
+  // Set initial values when editedItem changes
+  useEffect(() => {
+    if (editedItem) {
+      const formData = Object.fromEntries(
+        Object.keys(VALIDATION_RULES).map((key) => {
+          return [key, editedItem[key as keyof {{.Entity}}]];
+        }),
+      );
 
-	// Set validation and rule
-	const formProps = useFormValidation<{{.Entity}}>(register, {
-		name: { required: true },
-	});
+      reset(formData);
+    }
+  }, [editedItem, reset]);
 
-	// Submit form
-	const onSubmit = async ({{.LowerEntity}}: {{.Entity}}) => {
+  // Set validation and rule
+  const formProps = useFormValidation<{{.Entity}}>(register, VALIDATION_RULES);
 
-		if (editedItem?.id !== undefined) {
-			dispatch(update{{.Entity}}(editedItem.id, {{.LowerEntity}}));
-		} else {
-			dispatch(create{{.Entity}}({{.LowerEntity}}));
-		}
+  // Event Submit form
+  const onSubmit = async ({{.LowerEntity}}: {{.Entity}}) => {
+    const action = editedItem?.id ? update{{.Entity}}(editedItem.id, {{.LowerEntity}}) : create{{.Entity}}({{.LowerEntity}});
 
-		onClose();
-	};
+    dispatch(action)
+      .then(onClose)
+      .catch(() => {});
+  };
 
-	return (
-		<Modal className={className}>
-			<ModalHeader className="bg-primary">
-				<div className="modal-header-title">
-					<FiUser className="icon" />
-					<span>Edit {{.Entity}}</span>
-				</div>
-				<div className="tools" onClick={onClose} aria-hidden="true">
-					<FiX className="icon" />
-				</div>
-			</ModalHeader>
-			<ModalBody>
-				<FormContainer>
-					<form onSubmit={handleSubmit(onSubmit)} noValidate>
-						<div className="row">
-							<div className="col-md-12">
-								<FormGroup className={`${errors.name ? 'has-error' : ''}`}>
-									<Input
-										label="Name"
-										required
-										error={errors.name?.message}
-										{...formProps('name')}
-									/>
-								</FormGroup>
-							</div>
-						</div>
-					</form>
-				</FormContainer>
-			</ModalBody>
-			<ModalFooter className="justify-content-between">
-				<button className="btn btn-default" onClick={onClose}>
-					<FiArrowLeft /> Batal
-				</button>
-				<button type="submit" className="btn btn-primary" onClick={handleSubmit(onSubmit)}>
-					<FiUploadCloud /> Simpan
-				</button>
-			</ModalFooter>
-		</Modal>
-	);
+  return (
+    <Modal className={className}>
+      <ModalHeader className="bg-primary">
+        <div className="modal-header-title">
+          <FiUser className="icon" />
+          <span>Edit {{.Entity}}</span>
+        </div>
+        <div className="tools" onClick={onClose} aria-hidden="true">
+          <FiX className="icon" />
+        </div>
+      </ModalHeader>
+      <ModalBody>
+        <FormContainer>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <div className="row">
+              <div className="col-md-12">
+                <FormGroup className={`${errors.name ? 'has-error' : ''}`}>
+                  <Input label="Name" required error={errors.name?.message} {...formProps('name')} />
+                </FormGroup>
+              </div>
+            </div>
+          </form>
+        </FormContainer>
+      </ModalBody>
+      <ModalFooter className="justify-content-between">
+        <button className="btn btn-default" onClick={onClose}>
+          <FiArrowLeft /> Batal
+        </button>
+        <button type="submit" className="btn btn-primary" onClick={handleSubmit(onSubmit)}>
+          <FiUploadCloud /> Simpan
+        </button>
+      </ModalFooter>
+    </Modal>
+  );
 };
 
 export default Edit{{.Entity}}Modal;

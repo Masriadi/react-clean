@@ -1,77 +1,51 @@
-import type { Dispatch } from 'redux';
 import {{.Entity}}Repository from 'src/data/repositories/{{.DirName}}/{{.Entity}}Repository.ts';
 import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
 import type { ID } from 'src/domain/types/Types';
-import { setLoading } from 'src/presentation/stores/loading-bar/loadingBarSlice';
-import { deleteItem, setItem, setItems } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Slice.ts';
-import showNotification from 'src/utils/notification';
+import {
+  deleteItem,
+  setEditedItem,
+  setItem,
+  setItems,
+} from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Slice.ts';
+import { createAsyncAction } from 'src/utils/createAsyncAction';
 
-// fetch{{.Entity}}s : action creator for fetching user {{.LowerEntity}}s
-export const fetch{{.Entity}}s =
-	(currentPage: number, itemsPerPage: number, searchTerm = '') =>
-	async (dispatch: Dispatch) => {
-		dispatch(setLoading(true));
+// Fetch all
+export const fetchAll{{.Entity}} = (page: number, limit: number, search = '') =>
+  createAsyncAction<PaginatedResponse<{{.Entity}}>>({
+    action: () => {{.Entity}}Repository.getAll(page, limit, search),
+    onSuccess: (dispatch, result) => dispatch(setItems(result)),
+  });
 
-		try {
-			const response: PaginatedResponse<{{.Entity}}> = await {{.Entity}}Repository.getAll(
-				currentPage,
-				itemsPerPage,
-				searchTerm,
-			);
-			dispatch(setItems(response));
-		} catch (error) {
-			const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
-			showNotification('error', errorMessage);
-		} finally {
-			dispatch(setLoading(false));
-		}
-	};
+// Fetch by ID
+export const fetch{{.Entity}}ById = (id: ID) =>
+  createAsyncAction<{{.Entity}}>({
+    action: () => {{.Entity}}Repository.getById(id),
+    onSuccess: (dispatch, result) => dispatch(setEditedItem(result)),
+  });
 
-// create{{.Entity}} : action creator for creating user {{.LowerEntity}}
-export const create{{.Entity}} = ({{.Entity}}: {{.Entity}}) => async (dispatch: Dispatch) => {
-	dispatch(setLoading(true));
+// Create
+export const create{{.Entity}} = ({{.LowerEntity}}: {{.Entity}}) =>
+  createAsyncAction<{{.Entity}}>({
+    action: () => {{.Entity}}Repository.create({{.LowerEntity}}),
+    onSuccess: (dispatch, result) => dispatch(setItem(result)),
+    successMessage: 'Data berhasil disimpan',
+    rethrowError: true,
+  });
 
-	try {
-		const response = await {{.Entity}}Repository.create({{.Entity}});
-		dispatch(setItem(response));
-		showNotification('success', 'Data berhasil disimpan');
-	} catch (error) {
-		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
-		showNotification('error', errorMessage);
-	} finally {
-		dispatch(setLoading(false));
-	}
-};
+// Update
+export const update{{.Entity}} = (id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>) =>
+  createAsyncAction<{{.Entity}}>({
+    action: () => {{.Entity}}Repository.update(id, {{.LowerEntity}}),
+    onSuccess: (dispatch, result) => dispatch(setItem(result)),
+    successMessage: 'Perubahan berhasil disimpan',
+    rethrowError: true,
+  });
 
-// update{{.Entity}} : action creator for updating user {{.LowerEntity}}
-export const update{{.Entity}} = (id: ID, {{.Entity}}: Partial<{{.Entity}}>) => async (dispatch: Dispatch) => {
-	dispatch(setLoading(true));
-
-	try {
-		const response = await {{.Entity}}Repository.update(id, {{.Entity}});
-		dispatch(setItem(response));
-		showNotification('success', 'Perubahan berhasil disimpan');
-	} catch (error) {
-		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
-		showNotification('error', errorMessage);
-	} finally {
-		dispatch(setLoading(false));
-	}
-};
-
-// delete{{.Entity}} : action creator for deleting user {{.LowerEntity}}
-export const delete{{.Entity}} = (ids: ID[]) => async (dispatch: Dispatch) => {
-	dispatch(setLoading(true));
-
-	try {
-		const response = await {{.Entity}}Repository.delete(ids);
-		dispatch(deleteItem(response));
-		showNotification('success', 'Data berhasil dihapus');
-	} catch (error) {
-		const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred!';
-		showNotification('error', errorMessage);
-	} finally {
-		dispatch(setLoading(false));
-	}
-};
+// Batch Delete
+export const batchDelete{{.Entity}} = (ids: ID[]) =>
+  createAsyncAction<ID[]>({
+    action: () => {{.Entity}}Repository.batchDelete(ids),
+    onSuccess: (dispatch, result) => dispatch(deleteItem(result)),
+    successMessage: 'Data berhasil dihapus',
+  });

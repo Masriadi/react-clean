@@ -1,78 +1,47 @@
-import apiFetch from 'src/data/sources/api/fetchWithAuth';
+import {
+  batchDeleteWithAuth,
+  fetchDataById,
+  fetchPaginated,
+  postWithAuth,
+  putWithAuth,
+} from 'src/data/sources/api/fetchApi';
 import type { I{{.Entity}}Repository, {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
 import type { ID } from 'src/domain/types/Types';
-import { API_BASE_URL } from 'src/utils/constants';
+
+const endpoint = '/{{.DirName}}';
 
 const {{.Entity}}Repository: I{{.Entity}}Repository = {
-	getAll: async (
-		currentPage: number,
-		itemsPerPage: number,
-		searchTerm: string,
-	): Promise<PaginatedResponse<{{.Entity}}>> => {
-		let url = `${API_BASE_URL}/{{.DirName}}?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
-		if (searchTerm) {
-			url += `&searchTerm=${searchTerm}`;
-		}
+  getAll: async (
+    currentPage: number,
+    itemsPerPage: number,
+    searchTerm: string,
+  ): Promise<PaginatedResponse<{{.Entity}}>> => {
+    const filters: Record<string, string | number> = {
+      currentPage,
+      itemsPerPage,
+    };
 
-		const response = await apiFetch.fetchWithAuth(url);
-		const responseJson = await response.json();
+    if (searchTerm) filters.searchTerm = searchTerm;
 
-		if (responseJson.code !== 200) {
-			throw new Error(responseJson.message);
-		}
-		return responseJson.data;
-	},
+    return fetchPaginated<{{.Entity}}>(endpoint, filters);
+  },
 
-	getById: async (id: ID): Promise<{{.Entity}}> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}/${id}`);
-		const responseJson = await response.json();
+  getById: async (id: ID): Promise<{{.Entity}}> => {
+    return fetchDataById<{{.Entity}}>(endpoint, id);
+  },
 
-		if (responseJson.code !== 200) {
-			throw new Error(responseJson.message);
-		}
-		return responseJson.data;
-	},
+  create: async ({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}> => {
+    return postWithAuth<{{.Entity}}>(endpoint, {{.LowerEntity}});
+  },
 
-	create: async ({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}`, {
-			method: 'POST',
-			body: JSON.stringify({{.LowerEntity}}),
-		});
-		const responseJson = await response.json();
+  update: async (id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}> => {
+    return putWithAuth<{{.Entity}}>(`${endpoint}/${id}`, {{.LowerEntity}});
+  },
 
-		if (responseJson.code !== 201) {
-			throw new Error(responseJson.message);
-		}
-		return responseJson.data;
-	},
-
-	update: async (id: ID, {{.Entity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}/${id}`, {
-			method: 'PUT',
-			body: JSON.stringify({{.Entity}}),
-		});
-		const responseJson = await response.json();
-
-		if (responseJson.code !== 200) {
-			throw new Error(responseJson.message);
-		}
-		return responseJson.data;
-	},
-
-	delete: async (ids: ID[]): Promise<ID[]> => {
-		const response = await apiFetch.fetchWithAuth(`${API_BASE_URL}/{{.DirName}}`, {
-			method: 'DELETE',
-			body: JSON.stringify(ids),
-		});
-		const responseJson = await response.json();
-
-		if (responseJson.code !== 200) {
-			throw new Error(responseJson.message);
-		}
-
-		return ids;
-	},
+  batchDelete: async (ids: ID[]): Promise<ID[]> => {
+    return batchDeleteWithAuth(endpoint, ids);
+  },
 };
 
 export default {{.Entity}}Repository;

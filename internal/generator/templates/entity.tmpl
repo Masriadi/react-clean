@@ -1,21 +1,17 @@
 import type { PaginatedResponse } from 'src/domain/types/Interface';
-import type { ID } from "src/domain/types/Types";
+import type { ID } from 'src/domain/types/Types';
 
 export interface {{.Entity}} {
-	id: ID;
-	name: string;
-	status?: boolean;
-	created_at?: string;
+  id: ID;
+  name: string;
+  status?: boolean;
+  created_at?: string;
 }
 
 export interface I{{.Entity}}Repository {
-	getAll(
-		currentPage: number,
-    itemsPerPage: number,
-    searchTerm: string,
-	): Promise<PaginatedResponse<{{.Entity}}>>;
-	getById(id: ID): Promise<{{.Entity}}>;
-	create({{.Entity}}: {{.Entity}}): Promise<{{.Entity}}>;
-	update(id: ID, {{.Entity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}>;
-	delete: (ids: ID[]) => Promise<ID[]>;
+  getAll(currentPage: number, itemsPerPage: number, searchTerm: string): Promise<PaginatedResponse<{{.Entity}}>>;
+  getById(id: ID): Promise<{{.Entity}}>;
+  create({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}>;
+  update(id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}>;
+  batchDelete: (ids: ID[]) => Promise<ID[]>;
 }
