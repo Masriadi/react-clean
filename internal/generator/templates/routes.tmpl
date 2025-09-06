@@ -8,7 +8,7 @@ const {{.Entity}}Router = () => {
 
   return (
     <Routes>
-      <Route path="/" element={hasAccessPermission(['{{.DirName}}']) ? <{{.Entity}}Page /> : <ForbiddenPage />} />
+      <Route path="/" element={hasAccessPermission(['{{.DirName}}s']) ? <{{.Entity}}Page /> : <ForbiddenPage />} />
     </Routes>
   );
 };

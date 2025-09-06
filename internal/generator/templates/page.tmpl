@@ -65,7 +65,7 @@ const {{.Entity}}Page: React.FC = () => {
 
   useBreadcrumbs([
     { name: 'Home', path: '/' },
-    { name: '{{.Entity}}', path: '/{{.LowerEntity}}' },
+    { name: '{{.Entity}}', path: '/{{.DirName}}' },
   ]);
 
   return (
@@ -210,6 +210,7 @@ const {{.Entity}}Page: React.FC = () => {
           onConfirm={() => {
             setShowDeleteModal(false);
             dispatch(batchDelete{{.Entity}}(selectedIds));
+            dispatch(toggleSelectAll(false));
           }}
         />
       )}

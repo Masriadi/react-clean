@@ -44,7 +44,7 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className =
   }, [editedItem, reset]);
 
   // Set validation and rule
-  const formProps = useFormValidation<{{.Entity}}>(register, VALIDATION_RULES);
+  const inputs = useFormValidation<{{.Entity}}>(register, VALIDATION_RULES);
 
   // Event Submit form
   const onSubmit = async ({{.LowerEntity}}: {{.Entity}}) => {
