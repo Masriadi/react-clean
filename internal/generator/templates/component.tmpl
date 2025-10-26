@@ -14,7 +14,7 @@ interface Edit{{.Entity}}ModalProps {
 }
 
 // Constants
-const VALIDATION_RULES = defineValidationRules<{{.Entity}}>()({
+const validationRules = defineValidationRules<{{.Entity}}>()({
   name: { required: true },
 });
 
@@ -34,7 +34,7 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className =
   useEffect(() => {
     if (editedItem) {
       const formData = Object.fromEntries(
-        Object.keys(VALIDATION_RULES).map((key) => {
+        Object.keys(validationRules).map((key) => {
           return [key, editedItem[key as keyof {{.Entity}}]];
         }),
       );
@@ -44,7 +44,7 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className =
   }, [editedItem, reset]);
 
   // Set validation and rule
-  const inputs = useFormValidation<{{.Entity}}>(register, VALIDATION_RULES);
+  const inputs = useFormValidation<{{.Entity}}>(register, validationRules);
 
   // Event Submit form
   const onSubmit = async ({{.LowerEntity}}: {{.Entity}}) => {
@@ -72,7 +72,7 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className =
             <div className="row">
               <div className="col-md-12">
                 <FormGroup className={`${errors.name ? 'has-error' : ''}`}>
-                  <Input label="Name" required error={errors.name?.message} {...formProps('name')} />
+                  <Input label="Name" required error={errors.name?.message} {...inputs('name')} />
                 </FormGroup>
               </div>
             </div>

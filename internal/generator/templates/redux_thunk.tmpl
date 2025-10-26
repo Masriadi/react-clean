@@ -3,7 +3,7 @@ import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
 import type { ID } from 'src/domain/types/Types';
 import {
-  deleteItem,
+  removeItem,
   setEditedItem,
   setItem,
   setItems,
@@ -46,6 +46,6 @@ export const update{{.Entity}} = (id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>
 export const batchDelete{{.Entity}} = (ids: ID[]) =>
   createAsyncAction<ID[]>({
     action: () => {{.Entity}}Repository.batchDelete(ids),
-    onSuccess: (dispatch, result) => dispatch(deleteItem(result)),
+    onSuccess: (dispatch, result) => dispatch(removeItem(result)),
     successMessage: 'Data berhasil dihapus',
   });

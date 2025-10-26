@@ -9,7 +9,11 @@ export interface {{.Entity}} {
 }
 
 export interface I{{.Entity}}Repository {
-  getAll(currentPage: number, itemsPerPage: number, searchTerm: string): Promise<PaginatedResponse<{{.Entity}}>>;
+  getAll(
+    currentPage: number,
+    itemsPerPage: number,
+    searchTerm: string,
+  ): Promise<PaginatedResponse<{{.Entity}}>>;
   getById(id: ID): Promise<{{.Entity}}>;
   create({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}>;
   update(id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}>;

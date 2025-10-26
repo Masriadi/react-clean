@@ -1,60 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
-import type { ID } from 'src/domain/types/Types';
+import { entitySliceFactory } from 'src/presentation/stores/entitySliceFactory';
 
-interface {{.Entity}}State {
-  items: {{.Entity}}[];
-  totalItems: number;
-  selectedIds: ID[];
-  selectAll: boolean;
-  editedItem?: {{.Entity}} | null;
-}
-
-const {{.LowerEntity}}Slice = createSlice({
-  name: '{{.LowerEntity}}',
-  initialState: {
-    items: [],
-    totalItems: 0,
-    selectedIds: [],
-    selectAll: false,
-    editedItem: null,
-  } as {{.Entity}}State,
-  reducers: {
-    setItems: (state: {{.Entity}}State, action: { payload: { items: {{.Entity}}[]; totalItems: number } }) => {
-      state.items = action.payload.items ?? [];
-      state.totalItems = action.payload.totalItems;
-    },
-    setItem: (state: {{.Entity}}State, action: { payload: {{.Entity}} }) => {
-      const {{.Entity}} = action.payload;
-      const {{.Entity}}Index = state.items.findIndex((c) => c.id === {{.Entity}}.id);
-      if ({{.Entity}}Index !== -1) {
-        state.items[{{.Entity}}Index] = {{.Entity}};
-      } else {
-        state.items.unshift({{.Entity}});
-      }
-      state.totalItems = state.items.length;
-    },
-    deleteItem: (state: {{.Entity}}State, action: { payload: ID[] }) => {
-      state.items = state.items.filter(({{.Entity}}) => !action.payload.includes({{.Entity}}.id));
-      state.totalItems -= action.payload.length;
-      state.selectedIds = state.selectedIds?.filter((selectedId) => !action.payload.includes(selectedId));
-    },
-    setEditedItem: (state: {{.Entity}}State, action: { payload: {{.Entity}} | null }) => {
-      state.editedItem = action.payload;
-    },
-    toggleSelectAll: (state: {{.Entity}}State, action: { payload: boolean }) => {
-      state.selectAll = action.payload;
-      state.selectedIds = state.selectAll ? state.items.map((c) => c.id) : [];
-    },
-    toggleSelectRow: (state: {{.Entity}}State, action: { payload: ID }) => {
-      const {{.LowerEntity}}Id = action.payload;
-      state.selectedIds = state.selectedIds.includes({{.LowerEntity}}Id)
-        ? state.selectedIds.filter((id) => id !== {{.LowerEntity}}Id)
-        : [...state.selectedIds, {{.LowerEntity}}Id];
-      state.selectAll = state.selectedIds.length === state.items.length;
-    },
-  },
-});
+// Buat slice {{.Entity}} menggunakan entitySliceFactory
+const {{.LowerEntity}}Slice = entitySliceFactory<{{.Entity}}>('{{.LowerEntity}}');
 
 export const { setItems, setItem, deleteItem, setEditedItem, toggleSelectAll, toggleSelectRow } =
   {{.LowerEntity}}Slice.actions;
