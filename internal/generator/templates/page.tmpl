@@ -24,7 +24,7 @@ import Edit{{.Entity}}Modal from 'src/presentation/components/{{.DirName}}/Edit{
 import {
   setEditedItem,
   toggleSelectAll,
-  toggleSelectRow,
+  toggleSelectItem,
 } from 'src/presentation/stores/{{.DirName}}/{{.LowerEntity}}Slice.ts';
 import {
   batchDelete{{.Entity}},
@@ -136,7 +136,7 @@ const {{.Entity}}Page: React.FC = () => {
                             <Checkbox
                               name={item.id.toString()}
                               checked={selectedIds.includes(item.id)}
-                              onChange={() => dispatch(toggleSelectRow(item.id))}
+                              onChange={() => dispatch(toggleSelectItem(item.id))}
                             />
                           </TableCell>
                           <TableCell>{item.name}</TableCell>

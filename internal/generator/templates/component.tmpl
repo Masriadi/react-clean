@@ -30,6 +30,9 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className =
     reset,
   } = useForm<{{.Entity}}>();
 
+  // Set validation and rule
+  const inputs = useFormValidation<{{.Entity}}>(register, validationRules);
+
   // Set initial values when editedItem changes
   useEffect(() => {
     if (editedItem) {
@@ -42,9 +45,6 @@ const Edit{{.Entity}}Modal: React.FC<Edit{{.Entity}}ModalProps> = ({ className =
       reset(formData);
     }
   }, [editedItem, reset]);
-
-  // Set validation and rule
-  const inputs = useFormValidation<{{.Entity}}>(register, validationRules);
 
   // Event Submit form
   const onSubmit = async ({{.LowerEntity}}: {{.Entity}}) => {

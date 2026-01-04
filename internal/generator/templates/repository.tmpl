@@ -1,10 +1,4 @@
-import {
-  batchDeleteWithAuth,
-  fetchDataById,
-  fetchPaginated,
-  postWithAuth,
-  putWithAuth,
-} from 'src/data/sources/api/fetchApi';
+import { batchDelete, fetchDataById, fetchPaginated, postData, putData } from 'src/data/sources/api/fetchApi';
 import type { I{{.Entity}}Repository, {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
 import type { ID } from 'src/domain/types/Types';
@@ -32,15 +26,15 @@ const {{.Entity}}Repository: I{{.Entity}}Repository = {
   },
 
   create: async ({{.LowerEntity}}: {{.Entity}}): Promise<{{.Entity}}> => {
-    return postWithAuth<{{.Entity}}>(endpoint, {{.LowerEntity}});
+    return postData<{{.Entity}}>(endpoint, {{.LowerEntity}});
   },
 
   update: async (id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>): Promise<{{.Entity}}> => {
-    return putWithAuth<{{.Entity}}>(`${endpoint}/${id}`, {{.LowerEntity}});
+    return putData<{{.Entity}}>(`${endpoint}/${id}`, {{.LowerEntity}});
   },
 
   batchDelete: async (ids: ID[]): Promise<ID[]> => {
-    return batchDeleteWithAuth(endpoint, ids);
+    return batchDelete(endpoint, ids);
   },
 };
 

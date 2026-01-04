@@ -4,6 +4,6 @@ import { entitySliceFactory } from 'src/presentation/stores/entitySliceFactory';
 // Buat slice {{.Entity}} menggunakan entitySliceFactory
 const {{.LowerEntity}}Slice = entitySliceFactory<{{.Entity}}>('{{.LowerEntity}}');
 
-export const { setItems, setItem, deleteItem, setEditedItem, toggleSelectAll, toggleSelectRow } =
+export const { setItems, setItem, removeItem, setEditedItem, toggleSelectAll, toggleSelectItem } =
   {{.LowerEntity}}Slice.actions;
 export default {{.LowerEntity}}Slice.reducer;
