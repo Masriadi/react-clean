@@ -60,7 +60,7 @@ const {{.Entity}}Page: React.FC = () => {
   } = useNewDataTable({ defaultPage, defaultItemsPerPage, defaultSearchTerm, totalData: totalItems });
 
   useEffect(() => {
-    dispatch(fetchAll{{.Entity}}(currentPage, itemsPerPage, debouncedSearchTerm));
+    dispatch(fetchAll{{.Entity}}({ currentPage, itemsPerPage, searchTerm: debouncedSearchTerm }));
   }, [currentPage, dispatch, itemsPerPage, debouncedSearchTerm]);
 
   useBreadcrumbs([
@@ -79,7 +79,7 @@ const {{.Entity}}Page: React.FC = () => {
                   <FiUserCheck className="icon" />
                   <span>Semua {{.Entity}}</span>
                 </div>
-                <div className="search-toolbar mr-15">
+                <div className="search-toolbar me-3">
                   <FiSearch className="icon" />
                   <Input
                     type="text"

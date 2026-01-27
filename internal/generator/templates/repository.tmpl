@@ -1,24 +1,13 @@
 import { batchDelete, fetchDataById, fetchPaginated, postData, putData } from 'src/data/sources/api/fetchApi';
-import type { I{{.Entity}}Repository, {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
+import type { {{.Entity}}, I{{.Entity}}Repository } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
-import type { ID } from 'src/domain/types/Types';
+import type { FilterParams, ID } from 'src/domain/types/Types';
 
 const endpoint = '/{{.DirName}}s';
 
 const {{.Entity}}Repository: I{{.Entity}}Repository = {
-  getAll: async (
-    currentPage: number,
-    itemsPerPage: number,
-    searchTerm: string,
-  ): Promise<PaginatedResponse<{{.Entity}}>> => {
-    const filters: Record<string, string | number> = {
-      currentPage,
-      itemsPerPage,
-    };
-
-    if (searchTerm) filters.searchTerm = searchTerm;
-
-    return fetchPaginated<{{.Entity}}>(endpoint, filters);
+  getAll: async (params: FilterParams): Promise<PaginatedResponse<{{.Entity}}>> => {
+    return fetchPaginated<{{.Entity}}>(endpoint, params);
   },
 
   getById: async (id: ID): Promise<{{.Entity}}> => {

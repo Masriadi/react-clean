@@ -1,9 +1,9 @@
 import {{.Entity}}Repository from 'src/data/repositories/{{.DirName}}/{{.Entity}}Repository.ts';
 import type { {{.Entity}} } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
-import type { ID } from 'src/domain/types/Types';
+import type { FilterParams, ID } from 'src/domain/types/Types';
 import {
-  removeItem,
+  removeItems,
   setEditedItem,
   setItem,
   setItems,
@@ -11,9 +11,9 @@ import {
 import { createAsyncAction } from 'src/utils/createAsyncAction';
 
 // Fetch all
-export const fetchAll{{.Entity}} = (page: number, limit: number, search = '') =>
+export const fetchAll{{.Entity}} = (params: FilterParams) =>
   createAsyncAction<PaginatedResponse<{{.Entity}}>>({
-    action: () => {{.Entity}}Repository.getAll(page, limit, search),
+    action: () => {{.Entity}}Repository.getAll(params),
     onSuccess: (dispatch, result) => dispatch(setItems(result)),
   });
 
@@ -46,6 +46,6 @@ export const update{{.Entity}} = (id: ID, {{.LowerEntity}}: Partial<{{.Entity}}>
 export const batchDelete{{.Entity}} = (ids: ID[]) =>
   createAsyncAction<ID[]>({
     action: () => {{.Entity}}Repository.batchDelete(ids),
-    onSuccess: (dispatch, result) => dispatch(removeItem(result)),
+    onSuccess: (dispatch, result) => dispatch(removeItems(result)),
     successMessage: 'Data berhasil dihapus',
   });
