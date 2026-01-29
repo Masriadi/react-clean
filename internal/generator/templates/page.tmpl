@@ -109,76 +109,78 @@ const {{.Entity}}Page: React.FC = () => {
                 </div>
               </CardHeader>
               <CardBody className="p-0">
-                <Table className="card-table">
-                  <TableHeader>
-                    <TableRow>
-                      <TableCell header={true} className="text-center w-80px">
-                        <Checkbox
-                          name="selectAll"
-                          checked={selectAll}
-                          onChange={() => dispatch(toggleSelectAll(!selectAll))}
-                        />
-                      </TableCell>
-                      <TableCell header={true}>Name</TableCell>
-                      <TableCell header={true} className="text-center w-100px">
-                        Status
-                      </TableCell>
-                      <TableCell header={true} className="text-center w-80px">
-                        #
-                      </TableCell>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {items.length > 0 ? (
-                      items.map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="text-center">
-                            <Checkbox
-                              name={item.id.toString()}
-                              checked={selectedIds.includes(item.id)}
-                              onChange={() => dispatch(toggleSelectItem(item.id))}
-                            />
-                          </TableCell>
-                          <TableCell>{item.name}</TableCell>
-                          <TableCell className="text-center">
-                            <Switch
-                              name="status"
-                              checked={item.status ?? false}
-                              onChange={(e) => {
-                                dispatch(update{{.Entity}}(item.id, { status: e.target.checked }));
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <DropdownMenu
-                              items={[
-                                {
-                                  icon: <FiEdit className="icon" />,
-                                  label: 'Edit',
-                                  onClick: () => {
-                                    dispatch(setEditedItem(item));
-                                    setShowEditModal(true);
-                                  },
-                                },
-                              ]}
-                              position="bottom-right"
-                            >
-                              <Button type="button" className="btn btn-rounded">
-                                <FiMoreVertical />
-                              </Button>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ) : (
+                <div className="table-responsive">
+                  <Table className="card-table">
+                    <TableHeader>
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center">
-                          No data available
+                        <TableCell header={true} className="text-center w-80px">
+                          <Checkbox
+                            name="selectAll"
+                            checked={selectAll}
+                            onChange={() => dispatch(toggleSelectAll(!selectAll))}
+                          />
+                        </TableCell>
+                        <TableCell header={true}>Name</TableCell>
+                        <TableCell header={true} className="text-center w-100px">
+                          Status
+                        </TableCell>
+                        <TableCell header={true} className="text-center w-80px">
+                          #
                         </TableCell>
                       </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {items.length > 0 ? (
+                        items.map((item, index) => (
+                          <TableRow key={index}>
+                            <TableCell className="text-center">
+                              <Checkbox
+                                name={item.id.toString()}
+                                checked={selectedIds.includes(item.id)}
+                                onChange={() => dispatch(toggleSelectItem(item.id))}
+                              />
+                            </TableCell>
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell className="text-center">
+                              <Switch
+                                name="status"
+                                checked={item.status ?? false}
+                                onChange={(e) => {
+                                  dispatch(update{{.Entity}}(item.id, { status: e.target.checked }));
+                                }}
+                              />
+                            </TableCell>
+                            <TableCell className="text-center">
+                              <DropdownMenu
+                                items={[
+                                  {
+                                    icon: <FiEdit className="icon" />,
+                                    label: 'Edit',
+                                    onClick: () => {
+                                      dispatch(setEditedItem(item));
+                                      setShowEditModal(true);
+                                    },
+                                  },
+                                ]}
+                                position="bottom-right"
+                              >
+                                <Button type="button" className="btn btn-rounded">
+                                  <FiMoreVertical />
+                                </Button>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={4} className="text-center">
+                            No data available
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
               </CardBody>
               <CardFooter>
                 {(selectedIds?.length as number) > 0 && (
