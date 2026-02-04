@@ -1,4 +1,10 @@
-import { batchDelete, fetchDataById, fetchPaginated, postData, putData } from 'src/data/sources/api/fetchApi';
+import {
+  batchDelete,
+  fetchDataById,
+  fetchPaginated,
+  postData,
+  putData,
+} from 'src/data/sources/api/api-client';
 import type { {{.Entity}}, I{{.Entity}}Repository } from 'src/domain/entities/{{.DirName}}/{{.Entity}}';
 import type { PaginatedResponse } from 'src/domain/types/Interface';
 import type { FilterParams, ID } from 'src/domain/types/Types';
